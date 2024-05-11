@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AQY prediction of PBSs system</title>
+    <!-- 引入 css文件 -->
+    <link rel="stylesheet" href="../login.css"/>
+    <!-- 引入 font awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        /* 设置网页的背景图片 */
+        body {
+            background-image: url("{{ url_for('static', filename='local-image.jpg') }}");
+            background-size: cover;
+        }
+        /* 设置标题栏的样式 */
+        header {
+            background-color: #00000080;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 36px;
+            padding: 20px;
+            text-align: center;
+        }
+        /* 设置导航栏的样式 */
+        nav {
+            background-color: #00000080;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+        }
+        /* 设置导航栏的项目的样式 */
+        nav ul {
+            list-style: none;
+        }
+        /* 设置导航栏的链接的样式 */
+        nav a {
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 24px;
+            margin: 10px;
+            padding: 10px;
+            text-decoration: none;
+        }
+        /* 设置导航栏的链接的悬停效果 */
+        nav a:hover {
+            background-color: white;
+            color: black;
+        }
+        /* 设置表单的样式 */
+        form {
+            background-color: #00000080;
+            border-radius: 30px;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 18px;
+            margin: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        /* 设置输入框的样式 */
+        input {
+            border: 0;
+            border-bottom: 5px solid white;
+            background: #ffffff00;
+            color: white;
+            font-size: 18px;
+            padding: 5px 10px;
+            width: 200px;
+        }
+        /* 设置提交按钮的样式 */
+        input[type=submit] {
+            background: #ffffff00;
+            border: 3px solid white;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 50px;
+            text-transform: uppercase;
+            transition: 0.2s;
+            width: 150px;
+        }
+        /* 设置提交按钮的悬停效果 */
+        input[type=submit]:hover {
+            background-color: white;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <!-- 添加标题栏 -->
+    <header>
+        <h1>AQY prediction of PBSs </h1>
+    </header>
+    
+    <!-- 显示结果 -->
+    {% if result %}
+    <h1>"Predicted AQY(%)"：{{ result }}</h1>
+    {% endif %}
+    <!-- 创建表单 -->
+
+<form action="/predict" method="post">
+    <table>
+        <tr>
+            <th>（1）Please enter Material type value<br>
+                (Metal-containing photocatalyst:1、Composite photocatalyst:0、Nonmetal-based photocatalyst:2)：</th>
+            <td><input type="text" name="Material type"></td>
+        </tr>
+        <tr>
+            <th>（2）Please enter Band gap（eV）：</th>
+            <td><input type="text" name="Band gap"></td>
+        </tr>
+        <tr>
+            <th>（3）Please enter CB（V）：</th>
+            <td><input type="text" name="CB"></td>
+        </tr>
+        <tr>
+            <th>（4）Please enter VB（V）：</th>
+            <td><input type="text" name="VB"></td>
+        </tr>
+        <tr>
+            <th>（5）Please enter Material size（nm）：</th>
+            <td><input type="text" name="Material size"></td>
+        </tr>
+        <tr>
+            <th>（6）Please enter Material addition（mM）：</th>
+            <td><input type="text" name="Material addition"></td>
+        </tr>
+        <tr>
+            <th>（7）Please enter Photocurrent density（μA/cm^2）：</th>
+            <td><input type="text" name="Photocurrent"></td>
+        </tr>
+        <tr>
+            <th>（8）Please enter PL lifetime（ns）：</th>
+            <td><input type="text" name="Fluorescence lifetime"></td>
+        </tr>
+        <tr>
+            <th>（9）Please enter Microorganism type value<br>
+                （M.barkeri:4、Shewanella oneidensis MR-1:6、E.coli:2、D. desulfuricans:1、M. thermoacetica:3、S.ovata:5、C. butyricum:0）
+：</th>
+            <td><input type="text" name="Microorganism"></td>
+        </tr>
+        <tr>
+            <th>（10）Please enter Location of material value（Intracellular:1, extracellular:0）：</th>
+            <td><input type="text" name="Location of material"></td>
+        </tr>
+        <tr>
+           <th>（11）Please enter Reduction potential of the product（V vs NHE at pH=7）<br>
+               （methane:-0.24、hydrogen:-0.41、Acetic acid：-0.30）：</th>
+            <td><input type="text" name="E0"></td>
+        </tr>
+        <tr>
+           <th>（12）Please enter Wavelength（nm）：</th>
+            <td><input type="text" name="Wavelength"></td>
+        </tr>
+        <tr>
+           <th>（13）Please enter Light intensity（mW/cm^2）：</th>
+            <td><input type="text" name="Light intensity"></td>
+        </tr>
+        <tr>
+           <th>（14）Please enter Irradiation duration（h）：</th>
+            <td><input type="text" name="Irradiation duration"></td>
+        </tr>
+        <tr>
+        <th>（15）Please enter Cys addition（wt%）：</th>
+            <td><input type="text" name="Sacrificial reagent addition"></td>
+        </tr>
+        <tr>
+            <th>Submit：</th>
+            <td><input type="submit" name="submit" value="Submit"></td>
+        </tr>
+    </table>
+</form>
+
+</body>
+</html>
